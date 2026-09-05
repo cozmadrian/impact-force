@@ -20,39 +20,63 @@
             --safe: #00b894;
             --safe-bg: #e8f8f5;
             --warning: #fdcb6e;
-            --radius: 16px;
+            --radius: 12px;
         }
 
-        body { font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background: var(--bg-gradient); color: var(--text-main); padding: 20px; line-height: 1.6; min-height: 100vh; }
-        .container { max-width: 1000px; margin: auto; background: var(--panel-bg); padding: 35px; border-radius: var(--radius); box-shadow: 0 10px 30px rgba(0,0,0,0.08); border: 1px solid rgba(255,255,255,0.5); backdrop-filter: blur(10px); }
-        h1, h2 { color: var(--primary); border-bottom: 2px solid var(--border-light); padding-bottom: 10px; margin-top: 30px; font-weight: 600; }
-        .lesson-box { background: linear-gradient(135deg, #2d3436, #636e72); color: #fff; padding: 25px; border-radius: var(--radius); margin-bottom: 30px; box-shadow: 0 8px 20px rgba(45, 52, 54, 0.2); }
-        .lesson-box h3 { margin-top: 0; color: #fff; border: none; }
-        .math-section { background: #f8f9fa; padding: 25px; border-left: 5px solid var(--accent); margin-bottom: 25px; border-radius: 0 var(--radius) var(--radius) 0; overflow-x: auto; box-shadow: inset 0 2px 5px rgba(0,0,0,0.02); }
-        .controls { background: #ffffff; padding: 25px; border-radius: var(--radius); border: 1px solid var(--border-light); margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
+        body { font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background: var(--bg-gradient); color: var(--text-main); padding: 10px; line-height: 1.5; min-height: 100vh; margin: 0; }
+        .container { max-width: 1000px; margin: auto; background: var(--panel-bg); padding: 25px; border-radius: var(--radius); box-shadow: 0 10px 30px rgba(0,0,0,0.08); border: 1px solid rgba(255,255,255,0.5); backdrop-filter: blur(10px); }
+        h1, h2 { color: var(--primary); border-bottom: 2px solid var(--border-light); padding-bottom: 8px; margin-top: 25px; font-weight: 600; font-size: 1.5em; }
+        
+        .lesson-box { background: linear-gradient(135deg, #2d3436, #636e72); color: #fff; padding: 20px; border-radius: var(--radius); margin-bottom: 25px; box-shadow: 0 8px 20px rgba(45, 52, 54, 0.2); }
+        .lesson-box h3 { margin-top: 0; color: #fff; border: none; font-size: 1.2em;}
+        .math-section { background: #f8f9fa; padding: 20px; border-left: 5px solid var(--accent); margin-bottom: 25px; border-radius: 0 var(--radius) var(--radius) 0; overflow-x: auto; box-shadow: inset 0 2px 5px rgba(0,0,0,0.02); font-size: 0.9em; }
+        .controls { background: #ffffff; padding: 20px; border-radius: var(--radius); border: 1px solid var(--border-light); margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
         
         label { font-weight: 600; display: block; margin-top: 15px; font-size: 0.95em; color: var(--primary); transition: color 0.3s; }
         .help-text { display: block; font-size: 0.85em; color: var(--accent); font-style: italic; margin-bottom: 8px; }
-        input[type=range] { width: 100%; margin-top: 5px; accent-color: var(--accent); transition: accent-color 0.3s; }
+        input[type=range] { width: 100%; margin-top: 8px; padding: 10px 0; accent-color: var(--accent); transition: accent-color 0.3s; }
         
         .highlight-label { color: var(--danger) !important; }
         .highlight-slider { accent-color: var(--danger) !important; }
 
-        .presets { display: flex; gap: 12px; margin-top: 12px; flex-wrap: wrap; }
-        .preset-btn { background: #f1f2f6; color: var(--text-main); border: 1px solid var(--border-light); padding: 10px 18px; border-radius: 20px; cursor: pointer; font-size: 0.85em; font-weight: 600; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
+        .presets { display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
+        .preset-btn { flex: 1 1 calc(33% - 10px); min-width: 140px; background: #f1f2f6; color: var(--text-main); border: 1px solid var(--border-light); padding: 12px 15px; border-radius: 8px; cursor: pointer; font-size: 0.85em; font-weight: 600; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
         .preset-btn:hover { background: var(--accent); color: #fff; transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         .preset-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); box-shadow: 0 4px 12px rgba(45, 52, 54, 0.3); transform: scale(1.02); }
         
-        .action-btn { background: var(--danger); color: white; border: none; padding: 12px 25px; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 1em; margin-top: 15px; transition: transform 0.2s; box-shadow: 0 4px 15px rgba(214, 48, 49, 0.3);}
-        .action-btn:hover { transform: scale(1.05); }
-        .reset-btn { background: var(--accent); color: white; border: none; padding: 12px 25px; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 1em; margin-top: 15px; margin-left: 10px; transition: transform 0.2s;}
-        .reset-btn:hover { transform: scale(1.05); }
-
-        .result-box { display: flex; flex-direction: column; gap: 12px; background: var(--safe-bg); padding: 25px; border: 2px solid var(--safe); border-radius: var(--radius); font-size: 1.15em; color: var(--safe); transition: all 0.4s ease; }
-        .result-item { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed rgba(0,0,0,0.15); padding-bottom: 8px; }
-        .status-alert { font-weight: bold; text-align: center; margin-top: 15px; font-size: 1.2em; text-transform: uppercase; letter-spacing: 1px;}
+        .btn-group { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 15px;}
+        .action-btn { background: var(--danger); color: white; border: none; padding: 15px 25px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 1em; flex: 1 1 200px; transition: transform 0.2s; box-shadow: 0 4px 15px rgba(214, 48, 49, 0.3);}
+        .reset-btn { background: var(--accent); color: white; border: none; padding: 15px 25px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 1em; flex: 1 1 100px; transition: transform 0.2s;}
         
-        #simCanvas { width: 100%; height: 350px; background: linear-gradient(to bottom, #eef2f3 0%, #8e9eab 100%); border: 1px solid var(--border-light); border-radius: var(--radius); margin-top: 15px; box-shadow: inset 0 0 20px rgba(0,0,0,0.1); }
+        .result-box { display: flex; flex-direction: column; gap: 12px; background: var(--safe-bg); padding: 20px; border: 2px solid var(--safe); border-radius: var(--radius); font-size: 1em; color: var(--safe); transition: all 0.4s ease; }
+        .result-item { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed rgba(0,0,0,0.15); padding-bottom: 8px; flex-wrap: wrap;}
+        .status-alert { font-weight: bold; text-align: center; margin-top: 15px; font-size: 1.1em; text-transform: uppercase; letter-spacing: 1px;}
+        
+        /* Protection des proportions sur mobile */
+        #simCanvas { 
+            width: 100%; 
+            height: auto; 
+            aspect-ratio: 900 / 350; 
+            background: linear-gradient(to bottom, #eef2f3 0%, #8e9eab 100%); 
+            border: 1px solid var(--border-light); 
+            border-radius: var(--radius); 
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.1); 
+            touch-action: none;
+        }
+
+        .chart-wrapper {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            margin-top: 30px;
+        }
+
+        @media (max-width: 600px) {
+            .container { padding: 15px; }
+            h1 { font-size: 1.3em; }
+            .chart-wrapper { height: 300px; }
+            .preset-btn { flex: 1 1 100%; }
+        }
     </style>
 </head>
 <body>
@@ -66,9 +90,9 @@
     </div>
 
     <h2>1. Dynamic Impact Simulation</h2>
-    <div class="controls" style="text-align: center;">
+    <div class="controls" style="text-align: center; padding-bottom: 30px;">
         <canvas id="simCanvas" width="900" height="350"></canvas>
-        <div>
+        <div class="btn-group">
             <button class="action-btn" id="playBtn" onclick="playSim()">Play Slack Impact</button>
             <button class="reset-btn" id="resetBtn" onclick="resetSim()">Reset</button>
         </div>
@@ -121,7 +145,9 @@
         <div id="statusAlert" class="status-alert">Status: SAFE</div>
     </div>
 
-    <canvas id="graphique" style="margin-top:30px;"></canvas>
+    <div class="chart-wrapper">
+        <canvas id="graphique"></canvas>
+    </div>
 </div>
 
 <script>
@@ -150,7 +176,7 @@
     let runMaxPeak = 0; 
     let forceHistory = new Array(150).fill(0); 
 
-    const visual_speed_scale = 0.8; // Slowed down as requested
+    const visual_speed_scale = 1.2; 
 
     function getDynamicAddedMass(m_sys) {
         let volume = Math.max(0, m_sys - m_nacelle);
@@ -209,7 +235,7 @@
         }
         ctx.stroke();
 
-        // Suspensions
+        // Suspensions (Strictly linear)
         ctx.beginPath();
         ctx.moveTo(basketX - 12, basketY);
         ctx.lineTo(envX - (45 * scaleFactor), envY + (50 * scaleFactor));
@@ -237,21 +263,20 @@
         ctx.lineWidth = 2;
         ctx.stroke();
 
-        // Display current force tracking the max correctly
         if (currentStretchForce > 50) {
             ctx.fillStyle = '#d63031';
             ctx.font = 'bold 22px Arial';
-            ctx.fillText(`${Math.round(currentStretchForce).toLocaleString()} kg`, basketX - 40, basketY + 45);
+            ctx.fillText(`${Math.round(currentStretchForce).toLocaleString()} kg`, basketX - 40, basketY + 55);
         }
         ctx.restore();
 
         // --- ECG Oscilloscope ---
-        let ecgX = canvas.width - 300;
+        let ecgX = canvas.width - 320;
         let ecgY = 15;
-        let ecgW = 280;
+        let ecgW = 300;
         let ecgH = 100;
         
-        ctx.fillStyle = 'rgba(15, 25, 20, 0.8)';
+        ctx.fillStyle = 'rgba(15, 25, 20, 0.85)';
         ctx.beginPath();
         ctx.roundRect(ecgX, ecgY, ecgW, ecgH, 8);
         ctx.fill();
@@ -269,9 +294,8 @@
         ctx.font = 'bold 12px monospace';
         ctx.fillText('FORCE (kg)', ecgX + 10, ecgY + 18);
         
-        ctx.fillStyle = '#00ff00';
         ctx.textAlign = 'right';
-        ctx.fillText(`MAX PEAK: ${Math.round(runMaxPeak).toLocaleString()} kg`, ecgX + ecgW - 10, ecgY + 18);
+        ctx.fillText(`MAX: ${Math.round(runMaxPeak).toLocaleString()} kg`, ecgX + ecgW - 10, ecgY + 18);
         ctx.textAlign = 'left'; 
         
         if (forceHistory.length > 1) {
@@ -289,8 +313,8 @@
             }
             
             ctx.strokeStyle = '#00ff00';
-            ctx.lineWidth = 1.5;
-            ctx.shadowBlur = 6;
+            ctx.lineWidth = 2;
+            ctx.shadowBlur = 8;
             ctx.shadowColor = '#00ff00';
             ctx.stroke();
             ctx.shadowBlur = 0; 
@@ -330,14 +354,15 @@
             
             let accel = springForce / visual_m;
             currentV += accel;
-            currentV *= 0.98; 
+            currentV *= 0.98; // Absorption élastique
             
+            // Verrouillage de la crête : on map l'élongation visuelle à la force théorique
             let max_visual_stretch = (initial_v * visual_speed_scale) * Math.sqrt(visual_m / visual_k);
             let stretchRatio = Math.abs(stretch) / max_visual_stretch;
             
             currentStretchForce = Math.min(stretchRatio * theoreticalMaxTension, theoreticalMaxTension);
             
-            // Force exact peak injection when reversing direction (at the apex)
+            // Remplacement forcé de la donnée au moment de l'inversion de vitesse (sommet de la crête)
             if (Math.abs(currentV) < 0.5 && stretchRatio > 0.8) {
                 currentStretchForce = theoreticalMaxTension;
             }
@@ -349,7 +374,7 @@
             if (!hasImpacted) {
                 currentV = initial_v * visual_speed_scale; 
             } else {
-                currentV *= 0.94;
+                currentV *= 0.92; // Amortissement du retour après rebond
             }
         }
 
@@ -502,6 +527,7 @@
                 },
                 options: {
                     responsive: true,
+                    maintainAspectRatio: false,
                     interaction: { mode: 'index', intersect: false },
                     scales: {
                         x: { title: { display: true, text: 'Slack Drift Speed (m/s)' } },
@@ -523,6 +549,10 @@
     
     document.getElementById('vitesse').addEventListener('input', () => { updateDashboard(); resetSim(); });
     document.getElementById('masse1').addEventListener('input', () => { updateDashboard(); resetSim(); });
+
+    window.addEventListener('resize', () => {
+        if (!isPlaying) drawSimulation();
+    });
 
     window.onload = () => {
         updateDashboard();
