@@ -9,138 +9,50 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
-            --bg-color: #f8f9fa;
-            --text-main: #212529;
-            --panel-bg: #ffffff;
-            --border-light: #dee2e6;
-            --primary: #495057;
-            --accent: #6c757d;
-            --danger: #dc3545;
-            --danger-bg: #f8d7da;
-            --safe: #198754;
-            --safe-bg: #d1e7dd;
-            --warning: #ffc107;
-            --warning-bg: #fff3cd;
+            --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            --text-main: #2d3436;
+            --panel-bg: rgba(255, 255, 255, 0.95);
+            --border-light: #dfe6e9;
+            --primary: #2d3436;
+            --accent: #636e72;
+            --danger: #d63031;
+            --danger-bg: #ffeaa7; 
+            --safe: #00b894;
+            --safe-bg: #e8f8f5;
+            --warning: #fdcb6e;
+            --radius: 16px;
         }
 
-        body { 
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
-            background-color: var(--bg-color); 
-            color: var(--text-main); 
-            padding: 20px; 
-            line-height: 1.6; 
-        }
-        
-        .container { 
-            max-width: 1000px; 
-            margin: auto; 
-            background: var(--panel-bg); 
-            padding: 30px; 
-            border-radius: 12px; 
-            box-shadow: 0 8px 16px rgba(0,0,0,0.05); 
-            border: 1px solid var(--border-light);
-        }
-
-        h1, h2 { 
-            color: var(--primary); 
-            border-bottom: 2px solid var(--border-light); 
-            padding-bottom: 8px; 
-            margin-top: 30px;
-        }
-
-        .lesson-box { 
-            background: var(--primary); 
-            color: #fff;
-            padding: 20px; 
-            border-radius: 8px; 
-            margin-bottom: 25px; 
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
+        body { font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background: var(--bg-gradient); color: var(--text-main); padding: 20px; line-height: 1.6; min-height: 100vh; }
+        .container { max-width: 1000px; margin: auto; background: var(--panel-bg); padding: 35px; border-radius: var(--radius); box-shadow: 0 10px 30px rgba(0,0,0,0.08); border: 1px solid rgba(255,255,255,0.5); backdrop-filter: blur(10px); }
+        h1, h2 { color: var(--primary); border-bottom: 2px solid var(--border-light); padding-bottom: 10px; margin-top: 30px; font-weight: 600; }
+        .lesson-box { background: linear-gradient(135deg, #2d3436, #636e72); color: #fff; padding: 25px; border-radius: var(--radius); margin-bottom: 30px; box-shadow: 0 8px 20px rgba(45, 52, 54, 0.2); }
         .lesson-box h3 { margin-top: 0; color: #fff; border: none; }
-
-        .schematic { 
-            text-align: center; 
-            margin: 25px 0; 
-            padding: 20px; 
-            background: var(--bg-color); 
-            border: 1px solid var(--border-light); 
-            border-radius: 8px; 
-        }
-
-        .math-section { 
-            background: var(--bg-color); 
-            padding: 20px; 
-            border-left: 4px solid var(--accent); 
-            margin-bottom: 25px; 
-            border-radius: 0 8px 8px 0;
-            overflow-x: auto;
-        }
-
-        .controls { 
-            background: var(--panel-bg); 
-            padding: 20px; 
-            border-radius: 8px; 
-            border: 1px solid var(--border-light); 
-            margin-bottom: 25px; 
-            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
-        }
-
-        label { 
-            font-weight: 600; 
-            display: block; 
-            margin-top: 15px; 
-            font-size: 0.95em; 
-            color: var(--primary);
-        }
-
-        input[type=range] { 
-            width: 100%; 
-            margin-top: 8px; 
-            accent-color: var(--accent);
-        }
-
-        .presets { 
-            display: flex; 
-            gap: 10px; 
-            margin-top: 10px; 
-            flex-wrap: wrap; 
-        }
-
-        .preset-btn { 
-            background: var(--bg-color); 
-            color: var(--text-main); 
-            border: 1px solid var(--accent); 
-            padding: 8px 15px; 
-            border-radius: 6px; 
-            cursor: pointer; 
-            font-size: 0.85em; 
-            font-weight: 600; 
-            transition: all 0.2s ease;
-        }
-        .preset-btn:hover { background: var(--accent); color: #fff; }
-
-        .result-box { 
-            display: flex; 
-            flex-direction: column; 
-            gap: 12px; 
-            background: var(--safe-bg); 
-            padding: 20px; 
-            border: 1px solid var(--safe); 
-            border-radius: 8px; 
-            font-size: 1.1em; 
-            color: var(--safe); 
-            transition: all 0.3s ease;
-        }
+        .math-section { background: #f8f9fa; padding: 25px; border-left: 5px solid var(--accent); margin-bottom: 25px; border-radius: 0 var(--radius) var(--radius) 0; overflow-x: auto; box-shadow: inset 0 2px 5px rgba(0,0,0,0.02); }
+        .controls { background: #ffffff; padding: 25px; border-radius: var(--radius); border: 1px solid var(--border-light); margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
         
-        .result-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px dashed rgba(0,0,0,0.1);
-            padding-bottom: 5px;
-        }
+        label { font-weight: 600; display: block; margin-top: 15px; font-size: 0.95em; color: var(--primary); transition: color 0.3s; }
+        .help-text { display: block; font-size: 0.85em; color: var(--accent); font-style: italic; margin-bottom: 8px; }
+        input[type=range] { width: 100%; margin-top: 5px; accent-color: var(--accent); transition: accent-color 0.3s; }
+        
+        .highlight-label { color: var(--danger) !important; }
+        .highlight-slider { accent-color: var(--danger) !important; }
 
-        .status-alert { font-weight: bold; text-align: center; margin-top: 10px; font-size: 1.1em; }
+        .presets { display: flex; gap: 12px; margin-top: 12px; flex-wrap: wrap; }
+        .preset-btn { background: #f1f2f6; color: var(--text-main); border: 1px solid var(--border-light); padding: 10px 18px; border-radius: 20px; cursor: pointer; font-size: 0.85em; font-weight: 600; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
+        .preset-btn:hover { background: var(--accent); color: #fff; transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .preset-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); box-shadow: 0 4px 12px rgba(45, 52, 54, 0.3); transform: scale(1.02); }
+        
+        .action-btn { background: var(--danger); color: white; border: none; padding: 12px 25px; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 1em; margin-top: 15px; transition: transform 0.2s; box-shadow: 0 4px 15px rgba(214, 48, 49, 0.3);}
+        .action-btn:hover { transform: scale(1.05); }
+        .reset-btn { background: var(--accent); color: white; border: none; padding: 12px 25px; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 1em; margin-top: 15px; margin-left: 10px; transition: transform 0.2s;}
+        .reset-btn:hover { transform: scale(1.05); }
+
+        .result-box { display: flex; flex-direction: column; gap: 12px; background: var(--safe-bg); padding: 25px; border: 2px solid var(--safe); border-radius: var(--radius); font-size: 1.15em; color: var(--safe); transition: all 0.4s ease; }
+        .result-item { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed rgba(0,0,0,0.15); padding-bottom: 8px; }
+        .status-alert { font-weight: bold; text-align: center; margin-top: 15px; font-size: 1.2em; text-transform: uppercase; letter-spacing: 1px;}
+        
+        #simCanvas { width: 100%; height: 350px; background: linear-gradient(to bottom, #eef2f3 0%, #8e9eab 100%); border: 1px solid var(--border-light); border-radius: var(--radius); margin-top: 15px; box-shadow: inset 0 0 20px rgba(0,0,0,0.1); }
     </style>
 </head>
 <body>
@@ -150,92 +62,51 @@
 
     <div class="lesson-box">
         <h3>The "Tight Rope" Rule</h3>
-        <p>A slack mooring line allows the balloon to accelerate. When the system's inertia hits the end of the line, the force multiplies based on the rope's stiffness. The graph below crosses your applied tension with the physical breaking limits of the hardware.</p>
+        <p>A slack mooring line allows the massive balloon to accelerate. When the inertia hits the end of the line, it acts as a loaded spring. This visualizes the exponential elastic rebound forces inflicted on your hardware.</p>
     </div>
-    
-    <h2>1. Physical Schematic</h2>
-    <div class="schematic">
-        <svg width="350" height="380" viewBox="0 0 300 350">
-            <!-- Ground & Anchor -->
-            <rect x="50" y="320" width="200" height="10" fill="#ced4da" />
-            <circle cx="150" cy="320" r="6" fill="#dc3545" />
-            <text x="165" y="325" font-size="11" font-family="monospace" fill="#495057">Anchor / Quick Release</text>
-            
-            <!-- Mooring line -->
-            <line x1="150" y1="320" x2="150" y2="280" stroke="#495057" stroke-width="4" />
-            <text x="135" y="305" font-size="12" fill="#495057">k</text>
 
-            <!-- Basket -->
-            <rect x="125" y="240" width="50" height="40" fill="#adb5bd" rx="4" />
-            <text x="185" y="265" font-size="11" font-family="monospace" fill="#495057">Basket (m_basket)</text>
-            
-            <!-- Suspensions -->
-            <line x1="125" y1="240" x2="100" y2="100" stroke="#6c757d" stroke-width="1.5" stroke-dasharray="4" />
-            <line x1="175" y1="240" x2="200" y2="100" stroke="#6c757d" stroke-width="1.5" stroke-dasharray="4" />
-            <line x1="150" y1="240" x2="150" y2="100" stroke="#adb5bd" stroke-width="2" />
-            <text x="158" y="180" font-size="12" fill="#6c757d" font-style="italic">L</text>
-            
-            <!-- Balloon -->
-            <circle cx="150" cy="80" r="55" fill="#e9ecef" stroke="#6c757d" stroke-width="2"/>
-            <text x="150" y="85" font-size="12" text-anchor="middle" font-family="monospace" fill="#495057">m_tot</text>
-            
-            <!-- Vectors (Sober colors) -->
-            <line x1="215" y1="80" x2="270" y2="80" stroke="#495057" stroke-width="2.5" marker-end="url(#arrow-dark)" />
-            <text x="225" y="70" font-size="12" fill="#495057">v (Drift)</text>
-            
-            <line x1="150" y1="15" x2="150" y2="-15" stroke="#495057" stroke-width="2.5" marker-end="url(#arrow-dark)" />
-            <text x="160" y="-5" font-size="12" fill="#495057">F_z</text>
-
-            <line x1="150" y1="320" x2="220" y2="320" stroke="#dc3545" stroke-width="2.5" marker-end="url(#arrow-red)" />
-            <text x="170" y="310" font-size="12" fill="#dc3545" font-weight="bold">F_impact</text>
-
-            <!-- Arrowheads -->
-            <defs>
-                <marker id="arrow-dark" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
-                    <path d="M0,0 L0,6 L8,3 z" fill="#495057" />
-                </marker>
-                <marker id="arrow-red" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
-                    <path d="M0,0 L0,6 L8,3 z" fill="#dc3545" />
-                </marker>
-            </defs>
-        </svg>
+    <h2>1. Dynamic Impact Simulation</h2>
+    <div class="controls" style="text-align: center;">
+        <canvas id="simCanvas" width="900" height="350"></canvas>
+        <div>
+            <button class="action-btn" id="playBtn" onclick="playSim()">Play Slack Impact</button>
+            <button class="reset-btn" id="resetBtn" onclick="resetSim()">Reset</button>
+        </div>
     </div>
 
     <h2>2. Model Equations Breakdown</h2>
     <div class="math-section">
-        <p><b>True Inertial Mass (\( m_{\text{tot}} \)) :</b> Includes hardware mass and hydrodynamic added mass.</p>
+        <p><b>True Inertial Mass (\( m_{\text{tot}} \)) :</b> Includes hardware mass and dynamic hydrodynamic added mass (0.6 &times; Volume).</p>
         $$ m_{\text{tot}} = m_{\text{system}} + m_{\text{added\_air}} $$
         
         <p><b>Kinetic Impact Force (\( F_{\text{impact}} \)) :</b> Converts kinetic energy into elastic potential energy.</p>
         $$ F_{\text{impact}} = v \sqrt{m_{\text{tot}} \cdot k} $$
         
-        <p><b>Centrifugal Force (\( F_c \)) :</b> Pendulum motion of the envelope around the basket.</p>
-        $$ F_c = m_{\text{tot}} \frac{v^2}{L} $$
-        
         <p><b>Vectorial Peak Tension (\( T_{\text{max}} \)) :</b> The absolute maximum force on the anchor.</p>
-        $$ T_{\text{max}} = \sqrt{F_{\text{impact}}^2 + \left( F_z + F_c - m_{\text{basket}} \cdot g \right)^2} $$
+        $$ T_{\text{max}} = \sqrt{F_{\text{impact}}^2 + \left( F_z + m_{\text{tot}} \frac{v^2}{L} - m_{\text{basket}} \cdot g \right)^2} $$
     </div>
 
     <h2>3. Interactive Simulator</h2>
     <div class="controls">
         <label>1. Select Mooring Hardware Preset:</label>
         <div class="presets">
-            <button class="preset-btn" onclick="setPreset(15000, 2500)">Nylon Rope (Elastic)</button>
-            <button class="preset-btn" onclick="setPreset(50000, 4500)">Standard Tether (Ultramagic)</button>
-            <button class="preset-btn" onclick="setPreset(250000, 8000)">Steel Cable (Rigid)</button>
+            <button class="preset-btn" onclick="setPreset(15000, 2500, this)">Nylon Rope (Elastic)</button>
+            <button class="preset-btn" onclick="setPreset(50000, 4500, this)">Standard Tether (Ultramagic)</button>
+            <button class="preset-btn" onclick="setPreset(250000, 8000, this)">Steel Cable (Rigid)</button>
         </div>
 
-        <label>System Mass (Envelope + Air + Basket): <span id="m1Val">2400</span> kg</label>
-        <input type="range" id="masse1" min="1500" max="4000" step="100" value="2400">
+        <label id="lbl-masse1">System Mass (Envelope + Internal Air + Basket): <span id="m1Val">2400</span> kg</label>
+        <span class="help-text">* Rule of thumb: 1 m³ of envelope volume &approx; 1 kg of air. Dynamic added mass scales automatically.</span>
+        <input type="range" id="masse1" min="1500" max="15000" step="100" value="2400">
+        
+        <label id="lbl-vitesse">Drift speed at lock (v): <span id="vVal">3.0</span> m/s</label>
+        <input type="range" id="vitesse" min="0" max="10" step="0.1" value="3">
 
-        <label>Hardware Minimum Breaking Load (MBL): <span id="mblVal">4500</span> kg</label>
+        <label id="lbl-mbl">Hardware Minimum Breaking Load (MBL): <span id="mblVal">4500</span> kg</label>
         <input type="range" id="mbl" min="1000" max="15000" step="500" value="4500">
 
-        <label>Mooring Rope Stiffness (k): <span id="kVal">50000</span> N/m</label>
+        <label id="lbl-raideur">Mooring Rope Stiffness (k): <span id="kVal">50000</span> N/m</label>
         <input type="range" id="raideur" min="10000" max="300000" step="5000" value="50000">
-        
-        <label>Drift speed at lock (v): <span id="vVal">2.0</span> m/s</label>
-        <input type="range" id="vitesse" min="0" max="10" step="0.1" value="2">
     </div>
 
     <div id="resultContainer" class="result-box">
@@ -254,22 +125,305 @@
 </div>
 
 <script>
-    const m_add = 1200; 
     const m_nacelle = 400; 
     const L = 10; 
     const Fz = 981; 
     const g = 9.81;
 
     let chartInstance = null;
+    let theoreticalMaxTension = 0;
 
-    function setPreset(k, mbl) {
+    // Simulation Engine Variables
+    const canvas = document.getElementById('simCanvas');
+    const ctx = canvas.getContext('2d');
+    let simReq = null;
+    let isPlaying = false;
+    
+    const anchorX = 100;
+    const anchorY = 300;
+    const ropeTightLimit = 350; 
+    let basketX = 120; 
+    let currentV = 0; 
+    let hasImpacted = false; 
+    let screenShake = 0;
+    let currentStretchForce = 0;
+    let runMaxPeak = 0; 
+    let forceHistory = new Array(150).fill(0); 
+
+    const visual_speed_scale = 0.8; // Slowed down as requested
+
+    function getDynamicAddedMass(m_sys) {
+        let volume = Math.max(0, m_sys - m_nacelle);
+        return volume * 0.6; 
+    }
+
+    function drawSimulation() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        let offsetX = 0;
+        let offsetY = 0;
+        if (screenShake > 0) {
+            offsetX = (Math.random() - 0.5) * screenShake;
+            offsetY = (Math.random() - 0.5) * screenShake;
+            screenShake *= 0.85; 
+            if (screenShake < 0.5) screenShake = 0;
+        }
+
+        ctx.save();
+        ctx.translate(offsetX, offsetY);
+
+        ctx.fillStyle = '#636e72';
+        ctx.fillRect(0, anchorY, canvas.width, 50);
+
+        ctx.fillStyle = '#d63031';
+        ctx.beginPath();
+        ctx.arc(anchorX, anchorY, 10, 0, Math.PI * 2);
+        ctx.fill();
+
+        let basketY = 250;
+        let envX = basketX; 
+        let envY = basketY - 140; 
+        
+        let m_sys = parseFloat(document.getElementById('masse1').value);
+        let scaleFactor = Math.min(Math.max(m_sys / 3000, 0.8), 1.5);
+        let envRadius = 85 * scaleFactor; 
+
+        // Rope Drawing
+        ctx.beginPath();
+        ctx.moveTo(anchorX, anchorY);
+        if (basketX < ropeTightLimit) {
+            let cpX = (anchorX + basketX) / 2;
+            let cpY = anchorY + (ropeTightLimit - basketX) * 0.3; 
+            ctx.quadraticCurveTo(cpX, cpY, basketX, basketY + 10);
+            ctx.strokeStyle = '#b2bec3';
+            ctx.lineWidth = 4;
+        } else {
+            ctx.lineTo(basketX, basketY + 10);
+            let tensionRatio = Math.min(currentStretchForce / theoreticalMaxTension, 1);
+            if (isNaN(tensionRatio)) tensionRatio = 0;
+            let r = Math.round(178 + (214 - 178) * tensionRatio);
+            let gb = Math.round(190 - 142 * tensionRatio);
+            let b = Math.round(195 - 146 * tensionRatio);
+            ctx.strokeStyle = `rgb(${r}, ${gb}, ${b})`; 
+            ctx.lineWidth = 5 + (tensionRatio * 3);
+        }
+        ctx.stroke();
+
+        // Suspensions
+        ctx.beginPath();
+        ctx.moveTo(basketX - 12, basketY);
+        ctx.lineTo(envX - (45 * scaleFactor), envY + (50 * scaleFactor));
+        ctx.moveTo(basketX + 12, basketY);
+        ctx.lineTo(envX + (45 * scaleFactor), envY + (50 * scaleFactor));
+        ctx.strokeStyle = 'rgba(45, 52, 54, 0.6)';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        // Basket
+        ctx.fillStyle = '#2d3436';
+        ctx.beginPath();
+        ctx.roundRect(basketX - 15, basketY, 30, 24, 4);
+        ctx.fill(); 
+
+        // Envelope
+        ctx.beginPath();
+        ctx.arc(envX, envY, envRadius, 0, Math.PI * 2);
+        let grad = ctx.createRadialGradient(envX - (20*scaleFactor), envY - (20*scaleFactor), 10*scaleFactor, envX, envY, envRadius);
+        grad.addColorStop(0, '#ffffff');
+        grad.addColorStop(1, '#dfe6e9');
+        ctx.fillStyle = grad;
+        ctx.fill();
+        ctx.strokeStyle = '#b2bec3';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        // Display current force tracking the max correctly
+        if (currentStretchForce > 50) {
+            ctx.fillStyle = '#d63031';
+            ctx.font = 'bold 22px Arial';
+            ctx.fillText(`${Math.round(currentStretchForce).toLocaleString()} kg`, basketX - 40, basketY + 45);
+        }
+        ctx.restore();
+
+        // --- ECG Oscilloscope ---
+        let ecgX = canvas.width - 300;
+        let ecgY = 15;
+        let ecgW = 280;
+        let ecgH = 100;
+        
+        ctx.fillStyle = 'rgba(15, 25, 20, 0.8)';
+        ctx.beginPath();
+        ctx.roundRect(ecgX, ecgY, ecgW, ecgH, 8);
+        ctx.fill();
+        
+        ctx.strokeStyle = 'rgba(0, 255, 0, 0.15)';
+        ctx.lineWidth = 1;
+        for(let i=15; i<ecgH; i+=15) {
+            ctx.beginPath();
+            ctx.moveTo(ecgX, ecgY + i);
+            ctx.lineTo(ecgX + ecgW, ecgY + i);
+            ctx.stroke();
+        }
+
+        ctx.fillStyle = '#00ff00';
+        ctx.font = 'bold 12px monospace';
+        ctx.fillText('FORCE (kg)', ecgX + 10, ecgY + 18);
+        
+        ctx.fillStyle = '#00ff00';
+        ctx.textAlign = 'right';
+        ctx.fillText(`MAX PEAK: ${Math.round(runMaxPeak).toLocaleString()} kg`, ecgX + ecgW - 10, ecgY + 18);
+        ctx.textAlign = 'left'; 
+        
+        if (forceHistory.length > 1) {
+            ctx.beginPath();
+            let startX = ecgX + 5;
+            let startY = ecgY + ecgH - 10;
+            
+            let dynamicScaleMax = theoreticalMaxTension > 100 ? theoreticalMaxTension * 1.1 : 100; 
+
+            ctx.moveTo(startX, startY - (forceHistory[0] / dynamicScaleMax) * (ecgH - 30));
+            for (let i = 1; i < forceHistory.length; i++) {
+                let x = startX + (i / forceHistory.length) * (ecgW - 10);
+                let y = startY - (forceHistory[i] / dynamicScaleMax) * (ecgH - 30);
+                ctx.lineTo(x, y);
+            }
+            
+            ctx.strokeStyle = '#00ff00';
+            ctx.lineWidth = 1.5;
+            ctx.shadowBlur = 6;
+            ctx.shadowColor = '#00ff00';
+            ctx.stroke();
+            ctx.shadowBlur = 0; 
+        }
+    }
+
+    function simLoop() {
+        if (!isPlaying) return;
+        
+        let initial_v = parseFloat(document.getElementById('vitesse').value);
+        let k_real = parseFloat(document.getElementById('raideur').value);
+        let m_sys = parseFloat(document.getElementById('masse1').value);
+        let m_add_dynamic = getDynamicAddedMass(m_sys);
+        let m_tot = m_sys + m_add_dynamic;
+
+        if (initial_v === 0) {
+            basketX = ropeTightLimit;
+            currentStretchForce = theoreticalMaxTension;
+            if (currentStretchForce > runMaxPeak) runMaxPeak = theoreticalMaxTension;
+            forceHistory.push(currentStretchForce);
+            drawSimulation();
+            isPlaying = false;
+            return;
+        }
+
+        let visual_k = k_real / 1500; 
+        let visual_m = m_tot / 30;    
+
+        if (basketX >= ropeTightLimit) {
+            if (!hasImpacted) {
+                hasImpacted = true; 
+                screenShake = Math.min(initial_v * 6, 25); 
+            }
+            
+            let stretch = basketX - ropeTightLimit;
+            let springForce = -visual_k * stretch;
+            
+            let accel = springForce / visual_m;
+            currentV += accel;
+            currentV *= 0.98; 
+            
+            let max_visual_stretch = (initial_v * visual_speed_scale) * Math.sqrt(visual_m / visual_k);
+            let stretchRatio = Math.abs(stretch) / max_visual_stretch;
+            
+            currentStretchForce = Math.min(stretchRatio * theoreticalMaxTension, theoreticalMaxTension);
+            
+            // Force exact peak injection when reversing direction (at the apex)
+            if (Math.abs(currentV) < 0.5 && stretchRatio > 0.8) {
+                currentStretchForce = theoreticalMaxTension;
+            }
+            
+            if (currentStretchForce >= runMaxPeak) runMaxPeak = theoreticalMaxTension;
+        } else {
+            currentStretchForce = 0;
+            
+            if (!hasImpacted) {
+                currentV = initial_v * visual_speed_scale; 
+            } else {
+                currentV *= 0.94;
+            }
+        }
+
+        basketX += currentV;
+
+        forceHistory.push(currentStretchForce);
+        if (forceHistory.length > 150) forceHistory.shift(); 
+
+        drawSimulation();
+
+        if (hasImpacted && Math.abs(currentV) < 0.1 && basketX < ropeTightLimit) {
+            isPlaying = false;
+        } else {
+            simReq = requestAnimationFrame(simLoop);
+        }
+    }
+
+    function playSim() {
+        resetSim();
+        let initial_v = parseFloat(document.getElementById('vitesse').value);
+        currentV = initial_v * visual_speed_scale; 
+        isPlaying = true;
+        simLoop();
+    }
+
+    function resetSim() {
+        isPlaying = false;
+        cancelAnimationFrame(simReq);
+        basketX = 120;
+        currentV = 0;
+        hasImpacted = false;
+        screenShake = 0;
+        currentStretchForce = 0;
+        runMaxPeak = 0;
+        forceHistory = new Array(150).fill(0);
+        drawSimulation();
+    }
+
+    function highlightRemainingSliders(active) {
+        const sliders = ['masse1', 'vitesse'];
+        sliders.forEach(id => {
+            const el = document.getElementById(id);
+            const lbl = document.getElementById('lbl-' + id);
+            if (active) {
+                el.classList.add('highlight-slider');
+                lbl.classList.add('highlight-label');
+            } else {
+                el.classList.remove('highlight-slider');
+                lbl.classList.remove('highlight-label');
+            }
+        });
+    }
+
+    function removePresetFocus() {
+        document.querySelectorAll('.preset-btn').forEach(btn => btn.classList.remove('active'));
+        highlightRemainingSliders(false);
+    }
+
+    function setPreset(k, mbl, btnElement) {
         document.getElementById('raideur').value = k;
         document.getElementById('mbl').value = mbl;
+        
+        document.querySelectorAll('.preset-btn').forEach(btn => btn.classList.remove('active'));
+        btnElement.classList.add('active');
+        highlightRemainingSliders(true);
+
         updateDashboard();
+        resetSim();
     }
 
     function calculerTension(v, k, m_sys) {
-        let m_tot = parseFloat(m_sys) + m_add;
+        let m_add_dynamic = getDynamicAddedMass(m_sys);
+        let m_tot = parseFloat(m_sys) + m_add_dynamic;
+        
         let F_impact = v * Math.sqrt(m_tot * k);
         let F_c = m_tot * (Math.pow(v, 2) / L);
         let T_z = Fz + F_c - (m_nacelle * g);
@@ -291,30 +445,29 @@
         document.getElementById('mblVal').innerText = mbl.toLocaleString();
 
         let T_max_N = calculerTension(v, k, m_sys);
-        let T_max_kg = Math.round(T_max_N / g);
+        theoreticalMaxTension = Math.round(T_max_N / g);
         
-        document.getElementById('tMaxOutput').innerText = T_max_kg.toLocaleString();
+        document.getElementById('tMaxOutput').innerText = theoreticalMaxTension.toLocaleString();
         document.getElementById('swlOutput').innerText = Math.round(swl).toLocaleString();
 
         let resultContainer = document.getElementById('resultContainer');
         let statusAlert = document.getElementById('statusAlert');
         
-        // CSS Variables for dynamic styling
-        if (T_max_kg > mbl) {
+        if (theoreticalMaxTension > mbl) {
             resultContainer.style.backgroundColor = "var(--danger-bg)";
             resultContainer.style.borderColor = "var(--danger)";
             resultContainer.style.color = "var(--danger)";
             statusAlert.innerText = "CATASTROPHIC FAILURE: Tension exceeds Breaking Load.";
-        } else if (T_max_kg > swl) {
-            resultContainer.style.backgroundColor = "var(--warning-bg)";
-            resultContainer.style.borderColor = "var(--warning)";
-            resultContainer.style.color = "#856404";
-            statusAlert.innerText = "WARNING: Tension exceeds Safe Working Load. Fatigue imminent.";
+        } else if (theoreticalMaxTension > swl) {
+            resultContainer.style.backgroundColor = "#fff9c4";
+            resultContainer.style.borderColor = "#fbc02d";
+            resultContainer.style.color = "#f57f17";
+            statusAlert.innerText = "WARNING: Tension exceeds Safe Working Load.";
         } else {
             resultContainer.style.backgroundColor = "var(--safe-bg)";
             resultContainer.style.borderColor = "var(--safe)";
             resultContainer.style.color = "var(--safe)";
-            statusAlert.innerText = "SAFE: Operations within certified limits.";
+            statusAlert.innerText = "SAFE: Operations within limits.";
         }
 
         let labels = [];
@@ -342,64 +495,40 @@
                 data: {
                     labels: labels,
                     datasets: [
-                        {
-                            label: 'Applied Peak Tension (kg)',
-                            data: tensionData,
-                            borderColor: '#495057',
-                            backgroundColor: 'rgba(73, 80, 87, 0.1)',
-                            borderWidth: 2,
-                            fill: true,
-                            pointRadius: 0,
-                            tension: 0.1
-                        },
-                        {
-                            label: 'Breaking Load - MBL (kg)',
-                            data: mblData,
-                            borderColor: '#dc3545',
-                            borderWidth: 2,
-                            borderDash: [5, 5],
-                            fill: false,
-                            pointRadius: 0
-                        },
-                        {
-                            label: 'Safe Working Load - SWL (kg)',
-                            data: swlData,
-                            borderColor: '#ffc107',
-                            borderWidth: 2,
-                            borderDash: [5, 5],
-                            fill: false,
-                            pointRadius: 0
-                        }
+                        { label: 'Applied Peak Tension (kg)', data: tensionData, borderColor: '#2d3436', backgroundColor: 'rgba(45, 52, 54, 0.05)', borderWidth: 2, fill: true, pointRadius: 0, tension: 0.3 },
+                        { label: 'Breaking Load - MBL (kg)', data: mblData, borderColor: '#d63031', borderWidth: 2, borderDash: [5, 5], fill: false, pointRadius: 0 },
+                        { label: 'Safe Working Load - SWL (kg)', data: swlData, borderColor: '#fdcb6e', borderWidth: 2, borderDash: [5, 5], fill: false, pointRadius: 0 }
                     ]
                 },
                 options: {
                     responsive: true,
                     interaction: { mode: 'index', intersect: false },
                     scales: {
-                        x: { 
-                            title: { display: true, text: 'Slack Drift Speed (m/s)' },
-                            grid: { color: 'rgba(0,0,0,0.05)' }
-                        },
-                        y: { 
-                            title: { display: true, text: 'Force (kg)' }, 
-                            beginAtZero: true,
-                            grid: { color: 'rgba(0,0,0,0.05)' }
-                        }
+                        x: { title: { display: true, text: 'Slack Drift Speed (m/s)' } },
+                        y: { title: { display: true, text: 'Force (kg)' }, beginAtZero: true }
                     },
-                    plugins: {
-                        legend: { position: 'top' }
-                    }
+                    plugins: { legend: { position: 'top' } }
                 }
             });
         }
+        
+        if (!isPlaying && !hasImpacted) {
+            forceHistory = new Array(150).fill(0);
+            drawSimulation(); 
+        }
     }
 
-    document.getElementById('vitesse').addEventListener('input', updateDashboard);
-    document.getElementById('raideur').addEventListener('input', updateDashboard);
-    document.getElementById('masse1').addEventListener('input', updateDashboard);
-    document.getElementById('mbl').addEventListener('input', updateDashboard);
+    document.getElementById('raideur').addEventListener('input', () => { updateDashboard(); resetSim(); removePresetFocus(); });
+    document.getElementById('mbl').addEventListener('input', () => { updateDashboard(); removePresetFocus(); });
+    
+    document.getElementById('vitesse').addEventListener('input', () => { updateDashboard(); resetSim(); });
+    document.getElementById('masse1').addEventListener('input', () => { updateDashboard(); resetSim(); });
 
-    window.onload = updateDashboard;
+    window.onload = () => {
+        updateDashboard();
+        forceHistory = new Array(150).fill(0);
+        drawSimulation();
+    };
 </script>
 
 </body>
