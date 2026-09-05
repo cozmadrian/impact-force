@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safety Analysis - Mooring System</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --bg-color: #f8f9fa;
+            --text-main: #212529;
+            --panel-bg: #ffffff;
+            --border-light: #dee2e6;
+            --primary: #495057;
+            --accent: #6c757d;
+            --danger: #dc3545;
+            --danger-bg: #f8d7da;
+            --safe: #198754;
+            --safe-bg: #d1e7dd;
+            --warning: #ffc107;
+            --warning-bg: #fff3cd;
+        }
+
+        body { 
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
+            background-color: var(--bg-color); 
+            color: var(--text-main); 
+            padding: 20px; 
+            line-height: 1.6; 
+        }
+        
+        .container { 
+            max-width: 1000px; 
+            margin: auto; 
+            background: var(--panel-bg); 
+            padding: 30px; 
+            border-radius: 12px; 
+            box-shadow: 0 8px 16px rgba(0,0,0,0.05); 
+            border: 1px solid var(--border-light);
+        }
+
+        h1, h2 { 
+            color: var(--primary); 
+            border-bottom: 2px solid var(--border-light); 
+            padding-bottom: 8px; 
+            margin-top: 30px;
+        }
+
+        .lesson-box { 
+            background: var(--primary); 
+            color: #fff;
+            padding: 20px; 
+            border-radius: 8px; 
+            margin-bottom: 25px; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .lesson-box h3 { margin-top: 0; color: #fff; border: none; }
+
+        .schematic { 
+            text-align: center; 
+            margin: 25px 0; 
+            padding: 20px; 
+            background: var(--bg-color); 
+            border: 1px solid var(--border-light); 
+            border-radius: 8px; 
+        }
+
+        .math-section { 
+            background: var(--bg-color); 
+            padding: 20px; 
+            border-left: 4px solid var(--accent); 
+            margin-bottom: 25px; 
+            border-radius: 0 8px 8px 0;
+            overflow-x: auto;
+        }
+
+        .controls { 
+            background: var(--panel-bg); 
+            padding: 20px; 
+            border-radius: 8px; 
+            border: 1px solid var(--border-light); 
+            margin-bottom: 25px; 
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        }
+
+        label { 
+            font-weight: 600; 
+            display: block; 
+            margin-top: 15px; 
+            font-size: 0.95em; 
+            color: var(--primary);
+        }
+
+        input[type=range] { 
+            width: 100%; 
+            margin-top: 8px; 
+            accent-color: var(--accent);
+        }
+
+        .presets { 
+            display: flex; 
+            gap: 10px; 
+            margin-top: 10px; 
+            flex-wrap: wrap; 
+        }
+
+        .preset-btn { 
+            background: var(--bg-color); 
+            color: var(--text-main); 
+            border: 1px solid var(--accent); 
+            padding: 8px 15px; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            font-size: 0.85em; 
+            font-weight: 600; 
+            transition: all 0.2s ease;
+        }
+        .preset-btn:hover { background: var(--accent); color: #fff; }
+
+        .result-box { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 12px; 
+            background: var(--safe-bg); 
+            padding: 20px; 
+            border: 1px solid var(--safe); 
+            border-radius: 8px; 
+            font-size: 1.1em; 
+            color: var(--safe); 
+            transition: all 0.3s ease;
+        }
+        
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px dashed rgba(0,0,0,0.1);
+            padding-bottom: 5px;
+        }
+
+        .status-alert { font-weight: bold; text-align: center; margin-top: 10px; font-size: 1.1em; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Mooring System - Safety Analysis</h1>
+
+    <div class="lesson-box">
+        <h3>The "Tight Rope" Rule</h3>
+        <p>A slack mooring line allows the balloon to accelerate. When the system's inertia hits the end of the line, the force multiplies based on the rope's stiffness. The graph below crosses your applied tension with the physical breaking limits of the hardware.</p>
+    </div>
+    
+    <h2>1. Physical Schematic</h2>
+    <div class="schematic">
+        <svg width="350" height="380" viewBox="0 0 300 350">
+            <!-- Ground & Anchor -->
+            <rect x="50" y="320" width="200" height="10" fill="#ced4da" />
+            <circle cx="150" cy="320" r="6" fill="#dc3545" />
+            <text x="165" y="325" font-size="11" font-family="monospace" fill="#495057">Anchor / Quick Release</text>
+            
+            <!-- Mooring line -->
+            <line x1="150" y1="320" x2="150" y2="280" stroke="#495057" stroke-width="4" />
+            <text x="135" y="305" font-size="12" fill="#495057">k</text>
+
+            <!-- Basket -->
+            <rect x="125" y="240" width="50" height="40" fill="#adb5bd" rx="4" />
+            <text x="185" y="265" font-size="11" font-family="monospace" fill="#495057">Basket (m_basket)</text>
+            
+            <!-- Suspensions -->
+            <line x1="125" y1="240" x2="100" y2="100" stroke="#6c757d" stroke-width="1.5" stroke-dasharray="4" />
+            <line x1="175" y1="240" x2="200" y2="100" stroke="#6c757d" stroke-width="1.5" stroke-dasharray="4" />
+            <line x1="150" y1="240" x2="150" y2="100" stroke="#adb5bd" stroke-width="2" />
+            <text x="158" y="180" font-size="12" fill="#6c757d" font-style="italic">L</text>
+            
+            <!-- Balloon -->
+            <circle cx="150" cy="80" r="55" fill="#e9ecef" stroke="#6c757d" stroke-width="2"/>
+            <text x="150" y="85" font-size="12" text-anchor="middle" font-family="monospace" fill="#495057">m_tot</text>
+            
+            <!-- Vectors (Sober colors) -->
+            <line x1="215" y1="80" x2="270" y2="80" stroke="#495057" stroke-width="2.5" marker-end="url(#arrow-dark)" />
+            <text x="225" y="70" font-size="12" fill="#495057">v (Drift)</text>
+            
+            <line x1="150" y1="15" x2="150" y2="-15" stroke="#495057" stroke-width="2.5" marker-end="url(#arrow-dark)" />
+            <text x="160" y="-5" font-size="12" fill="#495057">F_z</text>
+
+            <line x1="150" y1="320" x2="220" y2="320" stroke="#dc3545" stroke-width="2.5" marker-end="url(#arrow-red)" />
+            <text x="170" y="310" font-size="12" fill="#dc3545" font-weight="bold">F_impact</text>
+
+            <!-- Arrowheads -->
+            <defs>
+                <marker id="arrow-dark" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+                    <path d="M0,0 L0,6 L8,3 z" fill="#495057" />
+                </marker>
+                <marker id="arrow-red" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+                    <path d="M0,0 L0,6 L8,3 z" fill="#dc3545" />
+                </marker>
+            </defs>
+        </svg>
+    </div>
+
+    <h2>2. Model Equations Breakdown</h2>
+    <div class="math-section">
+        <p><b>True Inertial Mass (\( m_{\text{tot}} \)) :</b> Includes hardware mass and hydrodynamic added mass.</p>
+        $$ m_{\text{tot}} = m_{\text{system}} + m_{\text{added\_air}} $$
+        
+        <p><b>Kinetic Impact Force (\( F_{\text{impact}} \)) :</b> Converts kinetic energy into elastic potential energy.</p>
+        $$ F_{\text{impact}} = v \sqrt{m_{\text{tot}} \cdot k} $$
+        
+        <p><b>Centrifugal Force (\( F_c \)) :</b> Pendulum motion of the envelope around the basket.</p>
+        $$ F_c = m_{\text{tot}} \frac{v^2}{L} $$
+        
+        <p><b>Vectorial Peak Tension (\( T_{\text{max}} \)) :</b> The absolute maximum force on the anchor.</p>
+        $$ T_{\text{max}} = \sqrt{F_{\text{impact}}^2 + \left( F_z + F_c - m_{\text{basket}} \cdot g \right)^2} $$
+    </div>
+
+    <h2>3. Interactive Simulator</h2>
+    <div class="controls">
+        <label>1. Select Mooring Hardware Preset:</label>
+        <div class="presets">
+            <button class="preset-btn" onclick="setPreset(15000, 2500)">Nylon Rope (Elastic)</button>
+            <button class="preset-btn" onclick="setPreset(50000, 4500)">Standard Tether (Ultramagic)</button>
+            <button class="preset-btn" onclick="setPreset(250000, 8000)">Steel Cable (Rigid)</button>
+        </div>
+
+        <label>System Mass (Envelope + Air + Basket): <span id="m1Val">2400</span> kg</label>
+        <input type="range" id="masse1" min="1500" max="4000" step="100" value="2400">
+
+        <label>Hardware Minimum Breaking Load (MBL): <span id="mblVal">4500</span> kg</label>
+        <input type="range" id="mbl" min="1000" max="15000" step="500" value="4500">
+
+        <label>Mooring Rope Stiffness (k): <span id="kVal">50000</span> N/m</label>
+        <input type="range" id="raideur" min="10000" max="300000" step="5000" value="50000">
+        
+        <label>Drift speed at lock (v): <span id="vVal">2.0</span> m/s</label>
+        <input type="range" id="vitesse" min="0" max="10" step="0.1" value="2">
+    </div>
+
+    <div id="resultContainer" class="result-box">
+        <div class="result-item">
+            <span>Applied Peak Tension:</span>
+            <strong><span id="tMaxOutput">0</span> kg-force</strong>
+        </div>
+        <div class="result-item">
+            <span>Safe Working Load (SWL / SFx5):</span>
+            <strong><span id="swlOutput">0</span> kg-force</strong>
+        </div>
+        <div id="statusAlert" class="status-alert">Status: SAFE</div>
+    </div>
+
+    <canvas id="graphique" style="margin-top:30px;"></canvas>
+</div>
+
+<script>
+    const m_add = 1200; 
+    const m_nacelle = 400; 
+    const L = 10; 
+    const Fz = 981; 
+    const g = 9.81;
+
+    let chartInstance = null;
+
+    function setPreset(k, mbl) {
+        document.getElementById('raideur').value = k;
+        document.getElementById('mbl').value = mbl;
+        updateDashboard();
+    }
+
+    function calculerTension(v, k, m_sys) {
+        let m_tot = parseFloat(m_sys) + m_add;
+        let F_impact = v * Math.sqrt(m_tot * k);
+        let F_c = m_tot * (Math.pow(v, 2) / L);
+        let T_z = Fz + F_c - (m_nacelle * g);
+        if (T_z < 0) T_z = 0; 
+        let T_max = Math.sqrt(Math.pow(F_impact, 2) + Math.pow(T_z, 2));
+        return T_max;
+    }
+
+    function updateDashboard() {
+        let v = parseFloat(document.getElementById('vitesse').value);
+        let k = parseFloat(document.getElementById('raideur').value);
+        let m_sys = parseFloat(document.getElementById('masse1').value);
+        let mbl = parseFloat(document.getElementById('mbl').value);
+        let swl = mbl / 5; 
+
+        document.getElementById('vVal').innerText = v.toFixed(1);
+        document.getElementById('kVal').innerText = k.toLocaleString();
+        document.getElementById('m1Val').innerText = m_sys.toLocaleString();
+        document.getElementById('mblVal').innerText = mbl.toLocaleString();
+
+        let T_max_N = calculerTension(v, k, m_sys);
+        let T_max_kg = Math.round(T_max_N / g);
+        
+        document.getElementById('tMaxOutput').innerText = T_max_kg.toLocaleString();
+        document.getElementById('swlOutput').innerText = Math.round(swl).toLocaleString();
+
+        let resultContainer = document.getElementById('resultContainer');
+        let statusAlert = document.getElementById('statusAlert');
+        
+        // CSS Variables for dynamic styling
+        if (T_max_kg > mbl) {
+            resultContainer.style.backgroundColor = "var(--danger-bg)";
+            resultContainer.style.borderColor = "var(--danger)";
+            resultContainer.style.color = "var(--danger)";
+            statusAlert.innerText = "CATASTROPHIC FAILURE: Tension exceeds Breaking Load.";
+        } else if (T_max_kg > swl) {
+            resultContainer.style.backgroundColor = "var(--warning-bg)";
+            resultContainer.style.borderColor = "var(--warning)";
+            resultContainer.style.color = "#856404";
+            statusAlert.innerText = "WARNING: Tension exceeds Safe Working Load. Fatigue imminent.";
+        } else {
+            resultContainer.style.backgroundColor = "var(--safe-bg)";
+            resultContainer.style.borderColor = "var(--safe)";
+            resultContainer.style.color = "var(--safe)";
+            statusAlert.innerText = "SAFE: Operations within certified limits.";
+        }
+
+        let labels = [];
+        let tensionData = [];
+        let mblData = [];
+        let swlData = [];
+        
+        for (let i = 0; i <= 8; i += 0.2) {
+            labels.push(i.toFixed(1) + " m/s");
+            tensionData.push(Math.round(calculerTension(i, k, m_sys) / g));
+            mblData.push(mbl);
+            swlData.push(swl);
+        }
+
+        if (chartInstance) {
+            chartInstance.data.labels = labels;
+            chartInstance.data.datasets[0].data = tensionData;
+            chartInstance.data.datasets[1].data = mblData;
+            chartInstance.data.datasets[2].data = swlData;
+            chartInstance.update();
+        } else {
+            let ctx = document.getElementById('graphique').getContext('2d');
+            chartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Applied Peak Tension (kg)',
+                            data: tensionData,
+                            borderColor: '#495057',
+                            backgroundColor: 'rgba(73, 80, 87, 0.1)',
+                            borderWidth: 2,
+                            fill: true,
+                            pointRadius: 0,
+                            tension: 0.1
+                        },
+                        {
+                            label: 'Breaking Load - MBL (kg)',
+                            data: mblData,
+                            borderColor: '#dc3545',
+                            borderWidth: 2,
+                            borderDash: [5, 5],
+                            fill: false,
+                            pointRadius: 0
+                        },
+                        {
+                            label: 'Safe Working Load - SWL (kg)',
+                            data: swlData,
+                            borderColor: '#ffc107',
+                            borderWidth: 2,
+                            borderDash: [5, 5],
+                            fill: false,
+                            pointRadius: 0
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    interaction: { mode: 'index', intersect: false },
+                    scales: {
+                        x: { 
+                            title: { display: true, text: 'Slack Drift Speed (m/s)' },
+                            grid: { color: 'rgba(0,0,0,0.05)' }
+                        },
+                        y: { 
+                            title: { display: true, text: 'Force (kg)' }, 
+                            beginAtZero: true,
+                            grid: { color: 'rgba(0,0,0,0.05)' }
+                        }
+                    },
+                    plugins: {
+                        legend: { position: 'top' }
+                    }
+                }
+            });
+        }
+    }
+
+    document.getElementById('vitesse').addEventListener('input', updateDashboard);
+    document.getElementById('raideur').addEventListener('input', updateDashboard);
+    document.getElementById('masse1').addEventListener('input', updateDashboard);
+    document.getElementById('mbl').addEventListener('input', updateDashboard);
+
+    window.onload = updateDashboard;
+</script>
+
+</body>
+</html>
